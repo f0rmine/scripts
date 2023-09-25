@@ -11,9 +11,9 @@ Get-ChildItem $argv | ForEach-Object {
 
     $Host.UI.RawUI.WindowTitle = "[$($round)/$($argv.count)] Encoding $($_.Name)"
 
-    [String]$Out = Join-Path $_.Directory ($_.BaseName + ' - reenc.mp4')
+    [String]$Out = Join-Path $_.Directory ($_.BaseName + ' - comp.mp4')
 
-    ffmpeg -i `"$($_.FullName)`" -loglevel warning -stats -c:v libx264 -c:a aac -preset slower -x264-params aq-mode=3 -crf 18 -b:a 256k -pix_fmt yuv420p `"$($out)`"
+    ffmpeg -i `"$($_.FullName)`" -loglevel warning -stats -c:v libx264 -crf 35 -tune fastdecode -preset ultrafast `"$($out)`"
     if ($LASTEXITCODE -ne 0){pause}
 
     if ($round -ne $argv.count){Clear-Host}
